@@ -21,12 +21,12 @@
 # SOFTWARE.
 # ----------------------------------------------------------------------------
 
-"""This submodule contains helper functions to help with quick prototyping 
+"""This submodule contains helper functions to help with quick prototyping
 using pymunk together with pygame.
 
 Intended to help with debugging and prototyping, not for actual production use
-in a full application. The methods contained in this module is opinionated 
-about your coordinate system and not in any way optimized. 
+in a full application. The methods contained in this module is opinionated
+about your coordinate system and not in any way optimized.
 """
 
 __version__ = "$Id$"
@@ -44,45 +44,45 @@ from pymunk.vec2d import Vec2d
 
 def draw_space(surface, space):
     """Draw the contents of a pymunk.Space object on a pygame.Surface object
-    
+
     This method currently supports drawing of
         * pymunk.Segment
         * pymunk.Circle
         * pymunk.Poly
         * pymunk.Constraint objects
 
-    You can control the color of a shape by setting shape.color to the color 
+    You can control the color of a shape by setting shape.color to the color
     you want it drawn in.
-    
+
     >>> my_shape.color = pygame.color.THECOLORS["pink"]
-        
-    Not all constraints are currently drawn in a very clear way, but all the 
+
+    Not all constraints are currently drawn in a very clear way, but all the
     different shapes should look fine both as static and dynamic objects.
-    
+
     See pygame_util.demo.py for a full example
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
             space : pymunk.Space
-                The contents of this Space will be drawn on the surface. 
+                The contents of this Space will be drawn on the surface.
     """
-    
+
     (width, height) = surface.get_size()
-    
+
     for s in space.shapes:
         if not (hasattr(s, "ignore_draw") and s.ignore_draw):
             draw_shape(surface, s)
-            
+
     for c in space.constraints:
         if not (hasattr(c, "ignore_draw") and c.ignore_draw):
             draw_constraint(surface, c)
 
 def draw_shape(surface, shape):
     """Draw a pymunk.Shape object
-    
+
     See the documentation of draw_space for full details
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
@@ -95,12 +95,12 @@ def draw_shape(surface, shape):
         draw_segment(surface, shape)
     elif  isinstance(shape, pymunk.Poly):
         draw_poly(surface, shape)
-        
+
 def draw_circle(surface, circle):
     """Draw a pymunk.Circle object
-    
+
     See help of draw_space for full details
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
@@ -111,14 +111,14 @@ def draw_circle(surface, circle):
     p = to_pygame(circle_center, surface)
     r = 0
     if hasattr(circle, "color"):
-        color = circle.color  
+        color = circle.color
     elif circle.body.is_static:
         color = pygame.color.THECOLORS["lightgrey"]
         r = 1
     else:
         color = pygame.color.THECOLORS["red"]
     pygame.draw.circle(surface, color, p, int(circle.radius), r)
-    
+
     circle_edge = circle_center + Vec2d(circle.radius, 0).rotated(circle.body.angle)
     p2 = to_pygame(circle_edge, surface)
     line_r = 3 if circle.radius > 20 else 1
@@ -126,9 +126,9 @@ def draw_circle(surface, circle):
 
 def draw_poly(surface, poly):
     """Draw a pymunk.Poly object
-    
+
     See help of draw_space for full details
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
@@ -140,7 +140,7 @@ def draw_poly(surface, poly):
     ps = [to_pygame(p, surface) for p in ps]
     ps += [ps[0]]
     if hasattr(poly, "color"):
-        color = poly.color  
+        color = poly.color
     elif poly.body.is_static:
         color = pygame.color.THECOLORS["lightgrey"]
     else:
@@ -149,9 +149,9 @@ def draw_poly(surface, poly):
 
 def draw_segment(surface, segment):
     """Draw a pymunk.Segment object
-    
+
     See help of draw_space for full details
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
@@ -164,20 +164,20 @@ def draw_segment(surface, segment):
 
     p1 = to_pygame(pv1, surface)
     p2 = to_pygame(pv2, surface)
-    
+
     if hasattr(segment, "color"):
-        color = segment.color  
+        color = segment.color
     elif segment.body.is_static:
         color = pygame.color.THECOLORS["lightgrey"]
     else:
         color = pygame.color.THECOLORS["blue"]
     pygame.draw.lines(surface, color, False, [p1,p2], max(int(segment.radius),1))
-    
+
 def draw_constraint(surface, constraint):
     """Draw a pymunk.Constraint object
-    
+
     See the documentation of draw_space for full details
-    
+
     :Parameters:
             surface : pygame.Surface
                 Surface that the space will be drawn on
@@ -195,7 +195,7 @@ def draw_constraint(surface, constraint):
         pv2 = constraint.b.position + constraint.anchr2.rotated(constraint.b.angle)
         p1 = to_pygame(pv1, surface)
         p2 = to_pygame(pv2, surface)
-        pygame.draw.aalines(surface, pygame.color.THECOLORS["darkgray"], False, [p1,p2])    
+        pygame.draw.aalines(surface, pygame.color.THECOLORS["darkgray"], False, [p1,p2])
     elif isinstance(constraint, pymunk.GearJoint):
         pv1 = constraint.a.position
         pv2 = constraint.a.position
@@ -214,7 +214,7 @@ def draw_constraint(surface, constraint):
         pv2 = constraint.b.position
         p1 = to_pygame(pv1, surface)
         p2 = to_pygame(pv2, surface)
-        pygame.draw.aalines(surface, pygame.color.THECOLORS["darkgray"], False, [p1,p2])    
+        pygame.draw.aalines(surface, pygame.color.THECOLORS["darkgray"], False, [p1,p2])
 
 def get_mouse_pos(surface):
     """Get position of the mouse pointer in pymunk coordinates."""
@@ -222,15 +222,13 @@ def get_mouse_pos(surface):
     return from_pygame(p, surface)
 
 def to_pygame(p, surface):
-    """Convenience method to convert pymunk coordinates to pygame surface 
+    """Convenience method to convert pymunk coordinates to pygame surface
     local coordinates
     """
     return int(p[0]), surface.get_height()-int(p[1])
-    
+
 def from_pygame(p, surface):
-    """Convenience method to convert pygame surface local coordinates to 
-    pymunk coordinates    
+    """Convenience method to convert pygame surface local coordinates to
+    pymunk coordinates
     """
     return to_pygame(p,surface)
-
-            

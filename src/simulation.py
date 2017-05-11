@@ -29,7 +29,7 @@ class simulation():
                 # Create the space
                 self.space = pymunk.Space()
                 self.space.gravity = (0, -gravity)
-                # Create the floor 
+                # Create the floor
                 self._create_floor(angle)
         def _create_floor(self, angle):
                 # Create the floor
@@ -67,7 +67,7 @@ class simulation():
                                 if event.type == MOUSEBUTTONDOWN:
                                         robot = walker(self.space, \
                                                 self._invy(event.pos), \
-                                                80, 60, 10, pi/16, 0, 0, 0)
+                                                80, 60, 30, pi/16, 0, 0, 0)
                         self.step(0.02)
         def put_robot(self, robot):
                 self.robot = robot
@@ -77,8 +77,3 @@ class simulation():
                 for body in self.space.bodies:
                         k += body.kinetic_energy
                 return k
-   
-
-#s = simulation()
-#s.interactive()
-

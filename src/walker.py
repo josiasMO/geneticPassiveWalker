@@ -5,7 +5,7 @@ import pymunk.util
 from pymunk import Vec2d
 from math import pi
 
-class walker():
+class Walker():
     def __init__(self, space, pos, ul, ll, w, \
             lua, lla, rua, rla):
         '''Creates a passive dynamic walker. The parameters
@@ -20,6 +20,7 @@ class walker():
         rua -- the angle of the right hip
         rla -- the angle of the right angle
         '''
+        #print "Creating Walker: ", pos, ul, ll, w, lua, lla, rua, rla
         # Constructor method
         self.space = space
         self.density = 1.0
@@ -87,4 +88,3 @@ class walker():
         # Add the body and shape to the space
         self.space.add(leg, body)
         return leg
-

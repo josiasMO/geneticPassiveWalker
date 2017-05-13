@@ -9,9 +9,9 @@ import pymunk.util
 from pymunk import Vec2d
 from math import *
 
-from walker import walker
+from walker import Walker
 
-class simulation():
+class Simulation():
         def __init__(self, scr_w = 600, scr_h = 600, \
                         angle=pi/30, gravity=200, \
                         show=True):
@@ -33,13 +33,13 @@ class simulation():
                 self._create_floor(angle)
         def _create_floor(self, angle):
                 # Create the floor
-                body = pymunk.Body()
-                body.position = self.scr_w/2, self.scr_h/4
+                self.body = pymunk.Body()
+                self.body.position = self.scr_w/2, self.scr_h/4
                 v = [(-self.scr_w,-(self.scr_h/2)*sin(angle)), \
                      (self.scr_w,(self.scr_h/2)*sin(angle)), \
                      (self.scr_w, -self.scr_h/2), \
                      (-self.scr_w, -self.scr_h/2)]
-                floor = pymunk.Poly(body, v)
+                floor = pymunk.Poly(self.body, v)
                 floor.friction = 1.0
                 floor.elasticity = 0.4
                 self.space.add(floor)
@@ -55,6 +55,11 @@ class simulation():
                                         self.space)
                         pygame.display.flip()
                         self.clock.tick(1/delta)
+                #print "Space 0: ", self.space.bodies[0].position
+                #print "Space 1: ", self.space.bodies[1].position
+                #print "Space 2: ", self.space.bodies[2].position
+                #print "Space 3: ",
+                return self.space.bodies[0].position.x
         def interactive(self):
                 # Interactive mode
                 running = True
@@ -65,9 +70,9 @@ class simulation():
                                 if event.type == QUIT:
                                         running = False
                                 if event.type == MOUSEBUTTONDOWN:
-                                        robot = walker(self.space, \
+                                        robot = Walker(self.space, \
                                                 self._invy(event.pos), \
-                                                80, 60, 30, pi/16, 0, 0, 0)
+                                                80, 60, 10, pi/16, 0, 0, 0)
                         self.step(0.02)
         def put_robot(self, robot):
                 self.robot = robot

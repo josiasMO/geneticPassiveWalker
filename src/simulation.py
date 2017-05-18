@@ -55,10 +55,6 @@ class Simulation():
                                         self.space)
                         pygame.display.flip()
                         self.clock.tick(1/delta)
-                #print "Space 0: ", self.space.bodies[0].position
-                #print "Space 1: ", self.space.bodies[1].position
-                #print "Space 2: ", self.space.bodies[2].position
-                #print "Space 3: ",
                 return self.space.bodies[0].position.x
         def interactive(self):
                 # Interactive mode

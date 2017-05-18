@@ -26,7 +26,6 @@ class Individual(object):
     def __init__(self, chromosome=None):
         self.chromosome = chromosome or self._makechromosome()
         self.score = None  # set during evaluation
-        #print "Individual created" + str(self.chromosome)
 
     def _makechromosome(self):
         "makes a chromosome from randomly selected alleles."
@@ -60,7 +59,6 @@ class Individual(object):
 
     def simulate(self):
         s = Simulation()
-        pos = [500, 350]
         robot = Walker(s.space, [self.chromosome[0], self.chromosome[1]], self.chromosome[2], self.chromosome[3],\
         self.chromosome[4], self.chromosome[5], self.chromosome[6], self.chromosome[7], self.chromosome[8])
         print "Simulating best Individual with score: ", self.score
@@ -134,7 +132,7 @@ class Individual(object):
 
 
 class Environment(object):
-    def __init__(self, kind, population=None, size=100, maxgenerations=200, \
+    def __init__(self, kind, population=None, size=100, maxgenerations=400, \
                  generation=0, crossover_rate=0.8, mutation_rate=0.4, \
                  optimum=None):
         self.kind = kind

@@ -18,7 +18,7 @@ MAXIMIZE, MINIMIZE = 11, 22
 # rla -- the angle of the right angle
 
 class Individual(object):
-    alleles = [[500,500], [350,350], [20,60], [10,40], [10,30], [pi/10, pi/60], [0,0],[0,0],[0,0]]
+    alleles = [[500,600], [250,550], [20,60], [10,60], [5,40], [pi/10, pi/60], [0,0],[0,0],[0,0]]
     length = 9
     seperator = ''
     optimization = MAXIMIZE
